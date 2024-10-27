@@ -21,7 +21,16 @@ public class WorkoutController {
                 try {
                     return ResponseEntity.ok(workoutService.postWorkout(workoutDTO));
                 }catch (Exception e){
-                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("some thing is wrong");
                 }
+    }
+@GetMapping("/workouts")
+    public ResponseEntity<?> getWorkout(){
+       try{
+           return ResponseEntity.ok(workoutService.getWorkouts());
+       }catch (Exception e){
+           return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("some thing is wrong");
+       }
+
     }
 }
