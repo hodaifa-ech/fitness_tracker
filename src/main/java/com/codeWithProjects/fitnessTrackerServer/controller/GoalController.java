@@ -27,12 +27,21 @@ public class GoalController {
     }
 
     @GetMapping("/goals")
-    public ResponseEntity<?> getgoals(){
+    public ResponseEntity<?> getGoals(){
         try{
             return ResponseEntity.ok(goalService.getGoals());
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("some thing is wrong");
         }
 
+    }
+
+     @GetMapping("/goal/status/{id}")
+    public ResponseEntity<?> updateStatusGoal(@PathVariable Long id ){
+          try {
+              return ResponseEntity.ok(goalService.updateStatus(id));
+          }catch (Exception e){
+              return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("some thing is wrong");
+          }
     }
 }
