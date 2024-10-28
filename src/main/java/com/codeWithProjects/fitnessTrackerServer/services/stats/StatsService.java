@@ -1,13 +1,21 @@
 package com.codeWithProjects.fitnessTrackerServer.services.stats;
 
 
+import com.codeWithProjects.fitnessTrackerServer.dto.GraphDTO;
 import com.codeWithProjects.fitnessTrackerServer.dto.StatsDTO;
+import com.codeWithProjects.fitnessTrackerServer.entity.Activity;
+import com.codeWithProjects.fitnessTrackerServer.entity.Workout;
 import com.codeWithProjects.fitnessTrackerServer.repository.ActivityRepository;
 import com.codeWithProjects.fitnessTrackerServer.repository.GoalRepository;
 import com.codeWithProjects.fitnessTrackerServer.repository.WorkoutRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service()
 @RequiredArgsConstructor
@@ -45,6 +53,17 @@ public class StatsService {
         return statsDTO;
     }
 
+     public GraphDTO getGraphStats(){
+         Pageable pageable = PageRequest.of(0,7);
 
+         List<Workout> workouts = workoutRepository.findLast7Workout(pageable);
+         List<Activity> activities=activityRepository.findLast7Activity(pageable);
+
+
+         GraphDTO graphDTO = new GraphDTO();
+         graphDTO.setWorkouts(workouts.stream().map(Workout::getWorkoutDTO).collect(Collectors.toList()));
+         graphDTO.setActivities(activities.stream().map(Activity::getActivityDto).collect(Collectors.toList()));
+         return graphDTO;
+     }
 
 }

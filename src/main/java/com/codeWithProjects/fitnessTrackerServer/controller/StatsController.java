@@ -1,5 +1,6 @@
 package com.codeWithProjects.fitnessTrackerServer.controller;
 
+import com.codeWithProjects.fitnessTrackerServer.dto.GraphDTO;
 import com.codeWithProjects.fitnessTrackerServer.services.stats.StatsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -22,4 +23,16 @@ public class StatsController {
 
        return ResponseEntity.ok(statsService.getStats());
    }
+@GetMapping("/graphs")
+   public  ResponseEntity<?> getGraphSTats() {
+    GraphDTO graphDTO = statsService.getGraphStats();
+    if (graphDTO != null) {
+        return ResponseEntity.ok(graphDTO);
+    }else {
+        return ResponseEntity.status(404).build();
+    }
+
+}
+
+
 }
